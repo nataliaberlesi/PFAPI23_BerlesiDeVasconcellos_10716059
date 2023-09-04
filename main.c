@@ -161,7 +161,7 @@ void insert_stazione(bst_node *radice, bst_node stazione) {
         else
             x = x->right;
     } //Esco dal while quando x=NULL, cioè, quando ho trovato il punto in cui inserire il nuovo nodo
-    stazione->parent = y; // y è il parent di stazione
+    stazione->parent = y; //y è il parent di stazione
     if (y == NULL){
         *radice = stazione; //Se l'albero è vuoto, inserisco la stazione come radice dell'albero
     }
@@ -337,7 +337,7 @@ bst_node create_stazione(int distanza, int num_veicoli, const int *autonomie_vei
     nuova_Stazione->distanza = distanza;
     nuova_Stazione->num_veicoli = num_veicoli;
     memcpy(nuova_Stazione->autonomie, autonomie_veicoli, num_veicoli * sizeof(int)); //Inizializzo l'array di autonomie con le autonomie indicate
-    quick_sort(nuova_Stazione->autonomie, 0, (num_veicoli) - 1); //Faccio il merge-sort delle autonomie sempre che inserisco una nuova stazione all'albero
+    quick_sort(nuova_Stazione->autonomie, 0, (num_veicoli) - 1); //Faccio il quick-sort delle autonomie sempre che inserisco una nuova stazione nell'albero
     nuova_Stazione->max_autonomia = nuova_Stazione->autonomie[(num_veicoli) - 1];
 
     //Inizializzo tutti i puntatori della stazione a NULL, verrano risolti con le successive chiamate della funzione insert_stazione
@@ -362,7 +362,7 @@ bst_node tree_successor(bst_node stazione) {
     if (stazione->right != NULL) {
         return search_minimum(stazione->right);
     }
-    //sSe il sottoalbero dx è vuoto, il successore è il primo elemento y che si incontra risalendo nell'albero dal nodo stazione tale che stazione è nel sottoalbero sx di y
+    //Se il sottoalbero dx è vuoto, il successore è il primo elemento y che si incontra risalendo nell'albero dal nodo stazione tale che stazione è nel sottoalbero sx di y
     bst_node y = stazione->parent;
     while (y != NULL && stazione == y->right) {
         stazione = y;
@@ -399,7 +399,7 @@ void inorder_tree_walk(bst_node radice, bst_node *array, int *indice, int distan
     }
 }
 
-// Funzione di ricerca binaria per trovare la posizione di inserimento
+//Funzione di ricerca binaria per trovare la posizione di inserimento
 int binary_search_inserimento(int array[], int sx, int dx, int veicolo) {
     while (sx <= dx) {
         int middle = sx + (dx-sx)/2;
@@ -416,7 +416,7 @@ int binary_search_inserimento(int array[], int sx, int dx, int veicolo) {
     return sx; //Restituisce la posizione corretta per l'inserimento
 }
 
-// Funzione di ricerca binaria per trovare la posizione dell'auto da rottamare
+//Funzione di ricerca binaria per trovare la posizione dell'auto da rottamare
 int binary_search_rottamazione(int array[], int sx, int dx, int veicolo) {
     if (sx <= dx) {
         int middle = (sx+dx)/2;
@@ -463,7 +463,7 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
-// Funzione per deallocare la memoria dell'intero bst
+//Funzione per deallocare la memoria dell'intero bst
 void free_tree(bst_node *root) {
     if (*root != NULL) {
         free_tree(&((*root)->left)); //Deallocazione del sottoalbero sinistro
