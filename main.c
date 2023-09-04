@@ -24,7 +24,7 @@ typedef Stazione* bst_node; //bst_node è un tipo che punta alla radice del bst
 void insert_stazione(bst_node *radice, bst_node stazione);
 void destroy_stazione(bst_node *radice, bst_node stazione);
 void insert_auto(bst_node stazione, int autonomia, int posizione);
-void destroy_auto(bst_node stazione, int autonomia, int posizione);
+void destroy_auto(bst_node stazione, int posizione);
 void plan_route_andata(bst_node array_stazioni[], int* index, bst_node arrivo, int* route, int* dim_route);
 void plan_route_ritorno(bst_node array[], int dim_array, int* route, int* dim_route);
 
@@ -113,7 +113,7 @@ int main() {
                         //e chiamo la funzione destroy_auto
                         int posizione = binary_search_rottamazione(stazione_Cercata->autonomie, 0,stazione_Cercata->num_veicoli, autonomia);
                         if (posizione != -1) {
-                            destroy_auto(stazione_Cercata, autonomia, posizione);
+                            destroy_auto(stazione_Cercata, posizione);
                         }
                         else //Caso in cui la stazione esiste ma non c'è nessun automobile con autonomia indicata nel parco auto di essa
                             printf("non rottamata\n");
@@ -161,7 +161,7 @@ void insert_stazione(bst_node *radice, bst_node stazione) {
         else
             x = x->right;
     } //Esco dal while quando x=NULL, cioè, quando ho trovato il punto in cui inserire il nuovo nodo
-    stazione->parent = y; //y è il parent di stazione
+    stazione->parent = y; // y è il parent di stazione
     if (y == NULL){
         *radice = stazione; //Se l'albero è vuoto, inserisco la stazione come radice dell'albero
     }
@@ -233,7 +233,7 @@ void insert_auto(bst_node stazione, int autonomia, int posizione){
 }
 
 //Funzione per rottamare un veicolo nel parco auto di una stazione, mantenendo l'ordinamento dell'array
-void destroy_auto(bst_node stazione, int autonomia, int posizione){
+void destroy_auto(bst_node stazione, int posizione){
     //Devo spostare tutti gli elementi dell'array di autonomie di una posizione a sx partendo dalla posizione che voglio eliminare
     //In pratica sovvrascrivo il valore dell'autonomia dell'auto da rottamare con il valore dell'autonomia dell'auto successivo nell'array,
     //vado avanti così fino a raggiungere la fine dell'array, cioè, fino a raggiungere la posizione num_veicoli-2
@@ -429,7 +429,7 @@ int binary_search_rottamazione(int array[], int sx, int dx, int veicolo) {
             return binary_search_rottamazione(array, sx, middle - 1, veicolo);
         }
     }
-    return -1; //Elemento non trovato
+    return -1; //Veicolo non trovato
 }
 
 //Funzione di quicksort e rispettive funzioni di supporto, adattate dai pseudocodici visti a lezione
